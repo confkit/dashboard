@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fukict/basic": "^0.1.2",
+    "@fukict/router": "^0.1.2",
+    "ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@fukict/babel-preset": "^0.1.2",
+    "@fukict/vite-plugin": "^0.1.2",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.4",
+    "tailwindcss": "^3.3.6",
+    "postcss": "^8.4.32",
+    "autoprefixer": "^10.4.16"
+  }
+}
