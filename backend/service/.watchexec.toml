@@ -1,0 +1,14 @@
+# watchexec 配置文件（可选）
+# 用于更细粒度的文件监控配置
+
+# 监控的文件扩展名
+exts = ["rs", "toml"]
+
+# 忽略的目录
+ignore = ["target/", ".git/"]
+
+# 清屏
+clear = true
+
+# 在文件变化时运行的命令
+command = ["cargo", "run"]

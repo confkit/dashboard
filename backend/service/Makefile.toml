@@ -1,0 +1,84 @@
+# Makefile.toml - cargo-make 配置文件
+# 使用: cargo make <task>
+
+[env]
+RUST_LOG = "info"
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+# 清理端口
+[tasks.kill-port]
+description = "Kill process using port 8080"
+script = '''
+#!/bin/bash
+PORT=8080
+PID=$(lsof -ti :$PORT 2>/dev/null)
+if [ -n "$PID" ]; then
+    echo "Killing process $PID on port $PORT..."
+    kill -9 $PID 2>/dev/null
+    sleep 1
+    echo "✓ Port $PORT is now free"
+else
+    echo "✓ Port $PORT is already free"
+fi
+'''
+
+# 开发模式运行 (带热更新)
+[tasks.dev]
+description = "Run development server with auto-reload"
+dependencies = ["kill-port"]
+install_crate = "cargo-watch"
+command = "cargo"
+args = ["watch", "-x", "run"]
+
+# 生产构建
+[tasks.build]
+description = "Build release binary"
+command = "cargo"
+args = ["build", "--release"]
+
+# 运行服务器
+[tasks.run]
+description = "Run the server"
+command = "cargo"
+args = ["run"]
+
+# 代码检查
+[tasks.check]
+description = "Check code without building"
+command = "cargo"
+args = ["check"]
+
+# 格式化代码
+[tasks.fmt]
+description = "Format code"
+command = "cargo"
+args = ["fmt"]
+
+# 运行测试
+[tasks.test]
+description = "Run tests"
+command = "cargo"
+args = ["test"]
+
+# Lint 检查
+[tasks.lint]
+description = "Run clippy"
+command = "cargo"
+args = ["clippy", "--", "-D", "warnings"]
+
+# 修复可自动修复的问题
+[tasks.fix]
+description = "Auto-fix issues"
+command = "cargo"
+args = ["fix", "--allow-dirty", "--allow-staged"]
+
+# 清理构建产物
+[tasks.clean]
+description = "Clean build artifacts"
+command = "cargo"
+args = ["clean"]
+
+# 完整检查流程
+[tasks.ci]
+description = "Run CI checks (fmt, clippy, test)"
+dependencies = ["fmt", "lint", "test"]

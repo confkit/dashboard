@@ -1,0 +1,9 @@
+# Cargo 配置文件
+
+[build]
+# 增量编译以加快开发速度
+incremental = true
+
+[target.x86_64-apple-darwin]
+# macOS 优化
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
